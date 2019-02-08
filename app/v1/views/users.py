@@ -23,33 +23,5 @@ def get_user(id):
 
     return response('Request sent successfully', 200, [data])
 
-@bp.route('/register', methods=['POST'])
-def register_user():
-    """ Register user end point """
-
-    data = request.get_json()
-
-    if not data:
-        return response("No data was provided", 400)
-
-    try:
-        first_name = data['firstname']
-        last_name = data['lastname']
-        id_number = data['idNumber']
-        passport_url = data['passportUrl']
-        is_admin = data['isAdmin']
-    except KeyError as e:
-        return response("{} field is required".format(e.args[0]), 400)
-
-    user = User(first_name, last_name, id_number, passport_url, is_admin)
-
-    if not user.validate_object():
-            return response(user.error_message, user.error_code)
-
-    # append new user to list
-    user.save()
-
-    # return registered user
-    return response("User registered successfully", 201, [user.as_json()])
 
 
