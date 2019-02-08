@@ -43,4 +43,21 @@ def create_office():
         return response('Request was sent successfully', 200, office_list)
 
 
+@bp.route('/offices/<int:id>', methods=['GET', 'DELETE'])
+def get_office(id):
+
+    model = Office()
+    data = model.find_by_id(id)
+
+    if not data:
+        return response('Office not found', 404)
+
+    if request.method == 'GET':
+        return response('Request sent successfully', 200, [data])
+    else:
+        office = model.from_json(data)
+        office.delete()
+        return response(
+            '{} deleted successfully'.format(office.name), 200, [data])
+
 
