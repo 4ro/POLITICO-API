@@ -83,3 +83,5 @@ def edit_party(id, name):
 
     return response(
         '{} updated successfully'.format(party.name), 200, [data])
+
+        
